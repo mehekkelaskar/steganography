@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steganography Bot</title>
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #3b4c9b, #252b6b);
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 50px;
+      background: #1f2555;
+      color:black;
+    }
+
+    .nav-item {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 15px;
+      font-size: 16px;
+    }
+
+    .nav-item:hover {
+      color: #56d0ff;
+    }
+
+    .hero-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 50px;
+      height: calc(100vh - 80px);
+    }
+
+    .text-container {
+      flex: 1;
+      max-width: 40%;
+    }
+
+    .text-container h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #56d0ff;
+    }
+
+    .text-container p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #d1d8ff;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background: #56d0ff;
+      color: #1f2555;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #44a9e5;
+    }
+
+    .image-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      height:90%;
+      width:50%;
+    }
+.nav-right{
+ color: black;
+ }
+    .image-container img {
+       width:60%;
+
+      height: 90%;
+    }</style>
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-left">
+    <a href="#home" class="nav-item">STEGENOGRAPHY BOT</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-item" onclick="encryptMessage()" style="color:black;font-weight:bold;padding:10px;">ENCRYPT</button>
+    <button class="nav-item" onclick="decryptMessage()" style="color:black;font-weight:bold;padding:10px;">DECRYPT</button>
+  </div>
+</header>
+
+<main class="hero-section">
+  <div class="text-container">
+    <h1 style="font-size:2.5em"> STEGANOGRAPHY CHATBOT</h1>
+    <p>
+      A steganography bot cleverly hides secret messages within ordinary files or images, making the hidden data invisible to the naked eye. This technique ensures secure communication by embedding hidden information without raising suspicion.
+    </p>
+  </div>
+  <div class="image-container">
+    <img src="https://i.pinimg.com/originals/4b/5f/d3/4b5fd341ed56b734a5de24945fcd1c36.jpg" alt="Chatbot illustration">
+  </div>
+</main>
+
+<script>
+  async function encryptMessage() {
+    const message = prompt("Enter the message to hide:");
+    const imagePath = prompt("Enter the path of the image:");
+
+    if (message && imagePath) {
+      const response = await fetch("http://localhost:8080/steganography/encrypt", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `message=${encodeURIComponent(message)}&imagePath=${encodeURIComponent(imagePath)}`
+      });
+
+      const result = await response.text();
+      alert(result);
+    } else {
+      alert("Message or image path is missing.");
+    }
+  }
+
+  async function decryptMessage() {
+    const imagePath = prompt("Enter the path of the image to decode:");
+
+    if (imagePath) {
+      const response = await fetch("http://localhost:8080/steganography/decrypt", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `imagePath=${encodeURIComponent(imagePath)}`
+      });
+
+      const result = await response.text();
+      alert(result);
+    } else {
+      alert("Image path is missing.");
+    }
+  }
+</script>
+</body>
+</html>
